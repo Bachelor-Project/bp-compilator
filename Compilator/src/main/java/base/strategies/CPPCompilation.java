@@ -3,16 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaces;
+package base.strategies;
 
 import helpers.CompileResult;
+import interfaces.CompilationStrategy;
 
 /**
  *
  * @author Dato
  */
-public interface CompilatorManager {
-    
-    public CompileResult makeCompile(String progLang, StringBuffer code);
+public class CPPCompilation extends CompilationStrategy {
+
+    @Override
+    public CompileResult makeCompile(String progLang, StringBuffer code) {
+        return null;
+    }
     
 }

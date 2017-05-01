@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package helpers;
+package base.strategies;
 
-import interfaces.CompilatorManager;
+import helpers.CompileResult;
+import interfaces.CompilationStrategy;
 
 /**
  *
  * @author Dato
  */
-public class CodeCompilator implements CompilatorManager {
+public class PascalCompilation extends CompilationStrategy {
 
     @Override
     public CompileResult makeCompile(String progLang, StringBuffer code) {
-        return new CompileResult(true, "");
+        return null;
     }
     
 }

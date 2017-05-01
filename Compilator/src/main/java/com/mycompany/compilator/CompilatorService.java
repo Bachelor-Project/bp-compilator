@@ -5,10 +5,9 @@
  */
 package com.mycompany.compilator;
 
-import helpers.CodeCompilator;
+import base.CompilationFactory;
 import helpers.CodeData;
 import helpers.CompileResult;
-import interfaces.CompilatorManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -25,19 +24,19 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class CompilatorService {
     
-    private CompilatorManager compManager;
+//    private CompilationStrategy compManager;
     
     public CompilatorService(){
-        this(new CodeCompilator());
+//        this(new CodeCompilator());
     }
     
-    public CompilatorService(CompilatorManager compManager){
-        this.compManager = compManager;
-    }
+//    public CompilatorService(CompilationStrategy compManager){
+//        this.compManager = compManager;
+//    }
     
     @PUT
     public Response compileCode(CodeData cd){
-        CompileResult compileResult = compManager.makeCompile(cd.getProgLang(), new StringBuffer(cd.getCode()));
+        CompileResult compileResult = CompilationFactory.getCompilation(cd.getProgLang()).makeCompile(cd.getProgLang(), new StringBuffer(cd.getCode()));
         Response.ResponseBuilder responseBuilder;
         if (compileResult.isCorrect()){
             responseBuilder = Response.status(204);
