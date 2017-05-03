@@ -6,6 +6,7 @@
 package com.mycompany.compilator;
 
 import base.CompilationFactory;
+import base.enums.CompilatorType;
 import helpers.CodeData;
 import helpers.CompileResult;
 import javax.ws.rs.Consumes;
@@ -24,19 +25,20 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class CompilatorService {
     
-//    private CompilationStrategy compManager;
+//    private Compilation compManager;
     
     public CompilatorService(){
 //        this(new CodeCompilator());
     }
     
-//    public CompilatorService(CompilationStrategy compManager){
+//    public CompilatorService(Compilation compManager){
 //        this.compManager = compManager;
 //    }
     
     @PUT
     public Response compileCode(CodeData cd){
-        CompileResult compileResult = CompilationFactory.getCompilation(cd.getProgLang()).makeCompile(cd.getProgLang(), new StringBuffer(cd.getCode()));
+        CompilatorType compType = CompilatorType.JAVA; // cd.getProgLang();
+        CompileResult compileResult = CompilationFactory.getCompilation(compType).makeCompilation(new StringBuffer(cd.getCode()));
         Response.ResponseBuilder responseBuilder;
         if (compileResult.isCorrect()){
             responseBuilder = Response.status(204);

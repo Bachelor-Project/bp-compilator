@@ -5,18 +5,29 @@
  */
 package base.strategies;
 
-import helpers.CompileResult;
-import interfaces.CompilationStrategy;
+import interfaces.Compilation;
+import java.io.File;
+import java.io.InputStream;
 
 /**
  *
  * @author Dato
  */
-public class CPPCompilation extends CompilationStrategy {
+public class CPPCompilation extends Compilation {
+
+    public CPPCompilation(){
+        compilatorPath = "";
+    }
 
     @Override
-    public CompileResult makeCompile(String progLang, StringBuffer code) {
-        return null;
+    protected File createFileFor(StringBuffer codeBuff) {
+        return new File("");
     }
+
+    @Override
+    protected void processStream(InputStream stream) {
+
+    }
+    
     
 }
