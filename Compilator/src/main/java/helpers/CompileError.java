@@ -5,30 +5,32 @@
  */
 package helpers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  *
  * @author Dato
  */
-public class CompileResult {
+public class CompileError {
     
-    private boolean isCorrect;
+//    private boolean isCorrect;
     private int line;
     private String errorText;
     private String inCode;
     
-    public CompileResult(boolean isCorrect, String errorText){
-        this.isCorrect = isCorrect;
+//    public CompileError(boolean isCorrect, String errorText){
+//        this.isCorrect = isCorrect;
+//        this.errorText = errorText;
+//    }
+    
+    public CompileError(String errorText){
         this.errorText = errorText;
     }
     
-    public CompileResult(){}
+    public CompileError(){}
 
-    @JsonIgnore
-    public boolean isCorrect() {
-        return isCorrect;
-    }
+//    @JsonIgnore
+//    public boolean isCorrect() {
+//        return isCorrect;
+//    }
 
     public int getLine() {
         return line;
@@ -43,10 +45,10 @@ public class CompileResult {
     }
     
     
-    @JsonIgnore
-    public void setIsCorrect(boolean isCorrect) {
-        this.isCorrect = isCorrect;
-    }
+//    @JsonIgnore
+//    public void setIsCorrect(boolean isCorrect) {
+//        this.isCorrect = isCorrect;
+//    }
 
     public void setLine(int line) {
         this.line = line;
@@ -77,17 +79,13 @@ public class CompileResult {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CompileResult other = (CompileResult) obj;
-        return errorText.equals(other.errorText) && isCorrect == other.isCorrect();
+        final CompileError other = (CompileError) obj;
+        return errorText.equals(other.errorText);
     }
 
-    
-    
     @Override
     public String toString() {
-        return "CompileSummary{" + "isCorrect=" + isCorrect + ", errorText=" + errorText + '}';
+        return "CompileError{" + "line=" + line + ", errorText=" + errorText + ", inCode=" + inCode + '}';
     }
-    
-    
     
 }

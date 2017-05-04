@@ -8,7 +8,8 @@ package com.mycompany.compilator;
 import base.CompilationFactory;
 import base.enums.CompilatorType;
 import helpers.CodeData;
-import helpers.CompileResult;
+import helpers.CompileError;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -35,17 +36,36 @@ public class CompilatorService {
 //        this.compManager = compManager;
 //    }
     
+    
+    /**
+     * The method make compilation of given code on given programming language.
+     * @param cd The language and code data object.
+     * @return Response with compilation errors, or no content - error free.
+     */
     @PUT
     public Response compileCode(CodeData cd){
-        CompilatorType compType = CompilatorType.JAVA; // cd.getProgLang();
-        CompileResult compileResult = CompilationFactory.getCompilation(compType).makeCompilation(new StringBuffer(cd.getCode()));
+        CompilatorType compType = getAppropTypeFrom(cd.getProgLang());
+        List<CompileError> compileResult = CompilationFactory.getCompilation(compType).makeCompilation(new StringBuffer(cd.getCode()));
         Response.ResponseBuilder responseBuilder;
-        if (compileResult.isCorrect()){
+        if (compileResult.isEmpty()){
             responseBuilder = Response.status(204);
         }
         else {
             responseBuilder = Response.status(404).entity(compileResult);
         }
         return responseBuilder.build();
+    }
+    
+    /**
+     * The method converts string type to compilation enumerator. If no such value exists, return null;
+     * @param type The string value of type (CaseInsenstitive).
+     * @return Appropriate type or null.
+     */
+    private CompilatorType getAppropTypeFrom(String type){
+        CompilatorType result = null;
+        try{
+            result = CompilatorType.valueOf(type.toUpperCase());
+        } catch (IllegalArgumentException ex) { }
+        return result;
     }
 }

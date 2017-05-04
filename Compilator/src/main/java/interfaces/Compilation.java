@@ -5,10 +5,12 @@
  */
 package interfaces;
 
-import helpers.CompileResult;
+import helpers.CompileError;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,26 +21,26 @@ import java.util.logging.Logger;
 public abstract class Compilation {
     
     protected String compilatorPath = "";
+    protected String tempFilesDirectory = "";
     
-    public final CompileResult makeCompilation(StringBuffer code){
-        CompileResult result = new CompileResult();
+    public final List<CompileError> makeCompilation(StringBuffer code){
+        List<CompileError> errors = new ArrayList<>();
         try {
             File file = createFileFor(code);
             Process proc = Runtime.getRuntime().exec(compilatorPath + " " + file.getAbsolutePath());
             proc.waitFor();
             boolean isCorrect = (proc.exitValue() == 0);
-            result.setIsCorrect(isCorrect);
             if (!isCorrect){
-                processStream(proc.getErrorStream());
+                errors = processStream(proc.getErrorStream());
             }
-            
+            file.delete();
         } catch (InterruptedException | IOException ex) {
             Logger.getLogger(Compilation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return result;
+        return errors;
     }
     
-    protected abstract File createFileFor(StringBuffer codeBuff);
+    protected abstract File createFileFor(StringBuffer codeBuff) throws IOException;
     
-    protected abstract void processStream(InputStream stream);
+    protected abstract List<CompileError> processStream(InputStream stream) throws IOException;
 }

@@ -6,10 +6,10 @@
 package base;
 
 import base.enums.CompilatorType;
-import base.strategies.CPPCompilation;
-import base.strategies.JavaCompilation;
-import base.strategies.PascalCompilation;
-import base.strategies.PythonCompilation;
+import base.compilations.CPPCompilation;
+import base.compilations.JavaCompilation;
+import base.compilations.PascalCompilation;
+import base.compilations.PythonCompilation;
 import interfaces.Compilation;
 
 /**
@@ -17,11 +17,6 @@ import interfaces.Compilation;
  * @author Dato
  */
 public class CompilationFactory {
-    
-//    private static final String JAVA = "java";
-//    private static final String PYTHON = "python";
-//    private static final String CPP = "c++";
-//    private static final String PASCAL = "pascal";
     
     public static Compilation getCompilation(CompilatorType type){
         Compilation result;
