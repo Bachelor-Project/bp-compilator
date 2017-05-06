@@ -22,8 +22,8 @@ public class CPPCompilation extends Compilation {
     }
 
     @Override
-    protected File createFileFor(StringBuffer codeBuff) {
-        return new File("");
+    protected File createFileFor(String fileName, StringBuffer codeBuff) {
+        return new File(fileName);
     }
 
     @Override

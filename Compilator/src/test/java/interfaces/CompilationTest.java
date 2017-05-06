@@ -5,7 +5,10 @@
  */
 package interfaces;
 
+import base.CompilationFactory;
 import base.compilations.JavaCompilation;
+import base.enums.CompilatorType;
+import helpers.CodeData;
 import helpers.CompileError;
 import java.io.File;
 import java.io.IOException;
@@ -43,17 +46,41 @@ public class CompilationTest {
     public void tearDown() {
     }
 
+    private CodeData makeCodeDataWith(String progLang, String user, int taskId, String code){
+        CodeData cd = new CodeData(progLang, code);
+        cd.setUser(user);
+        cd.setTaskId(taskId);
+        return cd;
+    }
+    
     /**
      * Test of makeCompilation method, of class Compilation.
      */
     @Test
-    public void testMakeCompilation() {
-        StringBuffer code = new StringBuffer("public static void main(String []args){\n" +
-"		String a = \"aba\";\n" +
-"		StringBuffer b = new StringBuffer();\n" +
-"     }");
-        Compilation instance = new JavaCompilation();
-        List<CompileError> result = instance.makeCompilation(code);
+    public void test_MakeCompilation_Java() {
+        String code = "public static void main(String []args){\n" +
+                "		String a = \"aba\";\n" +
+                "		StringBuffer b = new StringBuffer();\n" +
+                "     }";
+        CodeData cd = new CodeData("java", code);
+        cd.setTaskId(8);
+        cd.setUser("testUser");
+        
+        List<CompileError> result = CompilationFactory.getCompilation(CompilatorType.JAVA).makeCompilation(cd);
+        
+        for (CompileError compileError : result) {
+            System.out.println(compileError);
+        }
+        
+        Assert.assertTrue(true);
+    }
+    @Test
+    public void test_MakeCompilation_Python() {
+        String code = "if __name__ == '__main__':\n" +
+                            "	print 'Hello, world";
+        CodeData cd = makeCodeDataWith("python", "testUser", 8, code);
+        
+        List<CompileError> result = CompilationFactory.getCompilation(CompilatorType.PYTHON).makeCompilation(cd);
         
         for (CompileError compileError : result) {
             System.out.println(compileError);
@@ -72,7 +99,7 @@ public class CompilationTest {
         StringBuffer codeBuff = null;
         Compilation instance = new CompilationImpl();
         File expResult = null;
-        File result = instance.createFileFor(codeBuff);
+//        File result = instance.createFileFor(codeBuff);
     }
 
     /**
@@ -89,8 +116,8 @@ public class CompilationTest {
     public class CompilationImpl extends Compilation {
 
         @Override
-        public File createFileFor(StringBuffer codeBuff) throws IOException {
-            return null;
+        protected File createFileFor(String fileName, StringBuffer codeBuff) throws IOException {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override

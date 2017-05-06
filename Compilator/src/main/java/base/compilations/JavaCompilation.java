@@ -25,83 +25,56 @@ import org.apache.commons.lang3.StringUtils;
 public class JavaCompilation extends Compilation {
 
     public JavaCompilation(){
-//        compilatorPath = "C:\\Users\\Dato\\Documents\\GitHub\\BachelorProject\\extra_files\\compilators\\java\\bin\\javac.exe";
-        compilatorPath = "javac.exe";
-        tempFilesDirectory = "C:\\Users\\Dato\\Documents\\GitHub\\BachelorProject\\extra_files\\compilators\\java\\";
+//        compilatorPath = "..\\..\\extra_files\\compilators\\java\\bin\\javac.exe";
+        compilatorPath = "javac.exe ";
+        tempFilesDirectory = "..\\..\\extra_files\\compilators\\java\\";
     }
     
-//    public CompileError makeCompileOf(StringBuffer code) {
-//        try {
-//            File file = createFileWith("java");
-//            writeCodeInto(file, code);
-//            Process proc = Runtime.getRuntime().exec(compilatorPath + " " + file.getAbsolutePath());
-//            proc.waitFor();
-//            if (proc.exitValue() == 0){
-//                System.out.println("------------------ OK ------------------");
-//            }
-//            else {
-//                System.out.println("------------------ ERROR ------------------");
-//                printLines(proc.getErrorStream());
-//            }
-//            file.delete();
-//            return null;
-//        } catch (IOException | InterruptedException ex) {
-//            Logger.getLogger(JavaCompilation.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        return null;
-//    }
-
-    private void printLines(InputStream errorStream) throws IOException {
-        try (BufferedReader buff = new BufferedReader(new InputStreamReader(errorStream))) {
-            String line;
-            while( (line = buff.readLine()) != null){
-                System.out.println("line: " + line);
-            }
-        }
-    }
-
     @Override
-    protected File createFileFor(StringBuffer codeBuff) throws IOException {
-        String path = tempFilesDirectory + "bla.java";
+    protected File createFileFor(String fileName, StringBuffer codeBuff) throws IOException {
+        String path = tempFilesDirectory + fileName + ".java";
         File file = new File(path);
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(codeBuff.toString());
-        writer.flush();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("public class " + fileName + " {\n");
+            writer.write("\t" + codeBuff.toString() + "\n");
+            writer.write("}");
+            writer.flush();
+        }
         return file;
     }
 
     @Override
     protected List<CompileError> processStream(InputStream stream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         List<CompileError> errors = new ArrayList<>();
-        int count = 1;
-        String line;
-        while((line = reader.readLine()) != null){
-            if (Character.isDigit(line.charAt(0))) break; // end of parsing.
-            if (count % 3 == 1){
-                CompileError error = new CompileError();
-                
-                String lineAsStr = StringUtils.substringBetween(line, ".java:", ": error:");
-                int lineNum = Integer.parseInt(lineAsStr);
-                error.setLine(lineNum);
-                
-                String errorText = StringUtils.substringAfter(line, ": error:");
-                error.setErrorText(errorText);
-                
-                errors.add(error);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            int count = 1;
+            String line;
+            while((line = reader.readLine()) != null){
+                if (Character.isDigit(line.charAt(0))) break; // end of parsing.
+                if (count % 3 == 1){
+                    CompileError error = new CompileError();
+                    
+                    String lineAsStr = StringUtils.substringBetween(line, ".java:", ": error:");
+                    int lineNum = Integer.parseInt(lineAsStr);
+                    error.setLine(lineNum);
+                    
+                    String errorText = StringUtils.substringAfter(line, ": error:");
+                    error.setErrorText(errorText);
+                    
+                    errors.add(error);
+                }
+                if (count % 3 == 2) {
+                    CompileError error = errors.get(errors.size() - 1);
+                    error.setCode(line);
+                }
+                else {
+                    CompileError error = errors.get(errors.size() - 1);
+                    String code = error.getCode() + "\n";
+                    code += line;
+                    error.setCode(code);
+                }
+                count ++;
             }
-            if (count % 3 == 2) {
-                CompileError error = errors.get(errors.size() - 1);
-                error.setCode(line);
-            }
-            else {
-                CompileError error = errors.get(errors.size() - 1);
-                String code = error.getCode() + "\n";
-                code += line;
-                error.setCode(code);
-            }
-            count ++;
         }
         return errors;
     }

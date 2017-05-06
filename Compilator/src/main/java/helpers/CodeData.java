@@ -5,12 +5,16 @@
  */
 package helpers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author Dato
  */
 public class CodeData {
     
+    private String user;
+    private int taskId;
     private String progLang;
     private String code;
     
@@ -21,6 +25,7 @@ public class CodeData {
     
     public CodeData(){}
 
+    @JsonProperty("program_lang")
     public String getProgLang() {
         return progLang;
     }
@@ -29,6 +34,17 @@ public class CodeData {
         return code;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    @JsonProperty("task_id")
+    public int getTaskId() {
+        return taskId;
+    }
+    
+    
+    @JsonProperty("program_lang")
     public void setProgLang(String progLang) {
         this.progLang = progLang;
     }
@@ -37,6 +53,16 @@ public class CodeData {
         this.code = code;
     }
 
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    @JsonProperty("task_id")
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 3;

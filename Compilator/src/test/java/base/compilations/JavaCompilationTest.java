@@ -46,7 +46,7 @@ public class JavaCompilationTest {
         StringBuffer codeBuff = null;
         JavaCompilation instance = new JavaCompilation();
         File expResult = null;
-        File result = instance.createFileFor(codeBuff);
+        File result = instance.createFileFor("", codeBuff);
     }
 
     /**

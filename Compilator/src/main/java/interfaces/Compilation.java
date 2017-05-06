@@ -5,6 +5,7 @@
  */
 package interfaces;
 
+import helpers.CodeData;
 import helpers.CompileError;
 import java.io.File;
 import java.io.IOException;
@@ -23,24 +24,26 @@ public abstract class Compilation {
     protected String compilatorPath = "";
     protected String tempFilesDirectory = "";
     
-    public final List<CompileError> makeCompilation(StringBuffer code){
+    public final List<CompileError> makeCompilation(CodeData data){
         List<CompileError> errors = new ArrayList<>();
         try {
-            File file = createFileFor(code);
+            String name = data.getUser() + "_" + data.getTaskId();
+            File file = createFileFor(name, new StringBuffer(data.getCode()));
             Process proc = Runtime.getRuntime().exec(compilatorPath + " " + file.getAbsolutePath());
             proc.waitFor();
             boolean isCorrect = (proc.exitValue() == 0);
             if (!isCorrect){
                 errors = processStream(proc.getErrorStream());
             }
-            file.delete();
+//            file.delete();
         } catch (InterruptedException | IOException ex) {
             Logger.getLogger(Compilation.class.getName()).log(Level.SEVERE, null, ex);
         }
         return errors;
     }
     
-    protected abstract File createFileFor(StringBuffer codeBuff) throws IOException;
+    protected abstract File createFileFor(String fileName, StringBuffer codeBuff) throws IOException;
     
     protected abstract List<CompileError> processStream(InputStream stream) throws IOException;
+    
 }

@@ -45,7 +45,7 @@ public class CompilatorService {
     @PUT
     public Response compileCode(CodeData cd){
         CompilatorType compType = getAppropTypeFrom(cd.getProgLang());
-        List<CompileError> compileResult = CompilationFactory.getCompilation(compType).makeCompilation(new StringBuffer(cd.getCode()));
+        List<CompileError> compileResult = CompilationFactory.getCompilation(compType).makeCompilation(cd);
         Response.ResponseBuilder responseBuilder;
         if (compileResult.isEmpty()){
             responseBuilder = Response.status(204);
