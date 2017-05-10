@@ -56,7 +56,7 @@ public class CompilationTest {
     /**
      * Test of makeCompilation method, of class Compilation.
      */
-    @Test
+//    @Test
     public void test_MakeCompilation_Java() {
         String code = "public static void main(String []args){\n" +
                 "		String a = \"aba\";\n" +
@@ -74,13 +74,31 @@ public class CompilationTest {
         
         Assert.assertTrue(true);
     }
-    @Test
+    
+//    @Test
     public void test_MakeCompilation_Python() {
         String code = "if __name__ == '__main__':\n" +
                             "	print 'Hello, world";
         CodeData cd = makeCodeDataWith("python", "testUser", 8, code);
         
         List<CompileError> result = CompilationFactory.getCompilation(CompilatorType.PYTHON).makeCompilation(cd);
+        
+        for (CompileError compileError : result) {
+            System.out.println(compileError);
+        }
+        
+        Assert.assertTrue(true);
+    }
+    
+    @Test
+    public void test_MakeCompilation_Pascal() {
+        String code =   "Begin\n" +
+                        "   Write('Hello World. Prepare to learn PASCAL!!');\n" +
+                        "   Readln;\n" +
+                        "End.";
+        CodeData cd = makeCodeDataWith("pascal", "testUser", 8, code);
+        
+        List<CompileError> result = CompilationFactory.getCompilation(CompilatorType.PASCAL).makeCompilation(cd);
         
         for (CompileError compileError : result) {
             System.out.println(compileError);

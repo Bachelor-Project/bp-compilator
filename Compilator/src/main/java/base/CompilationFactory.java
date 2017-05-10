@@ -30,8 +30,11 @@ public class CompilationFactory {
             case PASCAL:
                 result = new PascalCompilation();
                 break;
-            default:
+            case PYTHON:
                 result = new PythonCompilation();
+                break;
+            default:
+                result = null;
                 break;
         }
         return result;

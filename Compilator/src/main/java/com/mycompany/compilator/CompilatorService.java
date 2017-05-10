@@ -9,6 +9,7 @@ import base.CompilationFactory;
 import base.enums.CompilatorType;
 import helpers.CodeData;
 import helpers.CompileError;
+import interfaces.Compilation;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
@@ -45,13 +46,14 @@ public class CompilatorService {
     @PUT
     public Response compileCode(CodeData cd){
         CompilatorType compType = getAppropTypeFrom(cd.getProgLang());
-        List<CompileError> compileResult = CompilationFactory.getCompilation(compType).makeCompilation(cd);
+        Compilation compilator = CompilationFactory.getCompilation(compType);
         Response.ResponseBuilder responseBuilder;
-        if (compileResult.isEmpty()){
-            responseBuilder = Response.status(204);
+        if (compilator == null) {
+            responseBuilder = Response.status(405);
         }
         else {
-            responseBuilder = Response.status(404).entity(compileResult);
+            List<CompileError> compileResult = compilator.makeCompilation(cd);
+            responseBuilder = (compileResult.isEmpty()) ? Response.status(204) : Response.status(404).entity(compileResult);
         }
         return responseBuilder.build();
     }
@@ -62,7 +64,7 @@ public class CompilatorService {
      * @return Appropriate type or null.
      */
     private CompilatorType getAppropTypeFrom(String type){
-        CompilatorType result = null;
+        CompilatorType result = CompilatorType.None;
         try{
             result = CompilatorType.valueOf(type.toUpperCase());
         } catch (IllegalArgumentException ex) { }

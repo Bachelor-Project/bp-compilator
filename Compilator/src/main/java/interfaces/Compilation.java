@@ -32,6 +32,7 @@ public abstract class Compilation {
             Process proc = Runtime.getRuntime().exec(compilatorPath + " " + file.getAbsolutePath());
             proc.waitFor();
             boolean isCorrect = (proc.exitValue() == 0);
+            System.out.println("isCorrect: " + isCorrect);
             if (!isCorrect){
                 errors = processStream(proc.getErrorStream());
             }
@@ -45,5 +46,30 @@ public abstract class Compilation {
     protected abstract File createFileFor(String fileName, StringBuffer codeBuff) throws IOException;
     
     protected abstract List<CompileError> processStream(InputStream stream) throws IOException;
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Compilation other = (Compilation) obj;
+        if (!this.compilatorPath.equals(other.compilatorPath)) {
+            return false;
+        }
+        return this.tempFilesDirectory.equals(other.tempFilesDirectory);
+    }
+    
     
 }

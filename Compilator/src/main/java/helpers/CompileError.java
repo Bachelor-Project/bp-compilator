@@ -11,7 +11,6 @@ package helpers;
  */
 public class CompileError {
     
-//    private boolean isCorrect;
     private int line;
     private String errorText;
     private String inCode;
@@ -27,11 +26,6 @@ public class CompileError {
     
     public CompileError(){}
 
-//    @JsonIgnore
-//    public boolean isCorrect() {
-//        return isCorrect;
-//    }
-
     public int getLine() {
         return line;
     }
@@ -45,11 +39,6 @@ public class CompileError {
     }
     
     
-//    @JsonIgnore
-//    public void setIsCorrect(boolean isCorrect) {
-//        this.isCorrect = isCorrect;
-//    }
-
     public void setLine(int line) {
         this.line = line;
     }
