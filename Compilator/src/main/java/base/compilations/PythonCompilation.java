@@ -5,12 +5,10 @@
  */
 package base.compilations;
 
-import helpers.CompileError;
+import helpers.CompilationError;
 import interfaces.Compilation;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,24 +23,24 @@ import org.apache.commons.lang3.StringUtils;
 public class PythonCompilation extends Compilation {
 
     public PythonCompilation(){
-        compilatorPath = "python -m py_compile ";
-        tempFilesDirectory = "..\\..\\extra_files\\compilators\\python\\";
+        compilatorPath = "python ";
+        fileExtention = ".py";
     }
     
     @Override
-    protected File createFileFor(String fileName, StringBuffer codeBuff) throws IOException {
-        String path = tempFilesDirectory + fileName + ".py";
-        File file = new File(path);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(codeBuff.toString());
-            writer.flush();
-        }
-        return file;
+    protected void writeUserCodeInto(File file, String code) throws IOException {
+//        String path = tempFilesDirectory + fileName + ".py";
+//        File file = new File(path);
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+//            writer.write(codeBuff.toString());
+//            writer.flush();
+//        }
+//        return file;
     }
 
     @Override
-    protected List<CompileError> processStream(InputStream stream) throws IOException {
-        List<CompileError> errors = new ArrayList<>();
+    protected List<CompilationError> processStream(InputStream stream) throws IOException {
+        List<CompilationError> errors = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
             String line = reader.readLine();
             String errorText = StringUtils.substringBetween(line, "(", ", (");
@@ -50,7 +48,7 @@ public class PythonCompilation extends Compilation {
             String lineNum = StringUtils.substringBetween(content, ".py',", ",").trim();
             String errorInCode = StringUtils.substringBetween(content, "\"", "\"");
             
-            CompileError error = new CompileError();
+            CompilationError error = new CompilationError();
             error.setLine(Integer.parseInt(lineNum));
             error.setErrorText(errorText);
             error.setCode(errorInCode);

@@ -8,10 +8,11 @@ package com.mycompany.compilator;
 import base.CompilationFactory;
 import base.enums.CompilatorType;
 import helpers.CodeData;
-import helpers.CompileError;
+import helpers.CompilationError;
 import interfaces.Compilation;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,6 +38,10 @@ public class CompilatorService {
 //        this.compManager = compManager;
 //    }
     
+    @GET
+    public String getMessage(){
+        return "Compilator service";
+    }
     
     /**
      * The method make compilation of given code on given programming language.
@@ -45,17 +50,23 @@ public class CompilatorService {
      */
     @PUT
     public Response compileCode(CodeData cd){
+        System.out.println("code data: " + cd);
+        
         CompilatorType compType = getAppropTypeFrom(cd.getProgLang());
+        
         Compilation compilator = CompilationFactory.getCompilation(compType);
         Response.ResponseBuilder responseBuilder;
         if (compilator == null) {
             responseBuilder = Response.status(405);
         }
         else {
-            List<CompileError> compileResult = compilator.makeCompilation(cd);
+            List<CompilationError> compileResult = compilator.makeCompilation(cd);
+            
+            System.out.println("compilation result: " + compileResult);
+            
             responseBuilder = (compileResult.isEmpty()) ? Response.status(204) : Response.status(404).entity(compileResult);
         }
-        return responseBuilder.build();
+        return responseBuilder.header("access-control-allow-origin", "*").build();
     }
     
     /**
@@ -64,7 +75,7 @@ public class CompilatorService {
      * @return Appropriate type or null.
      */
     private CompilatorType getAppropTypeFrom(String type){
-        CompilatorType result = CompilatorType.None;
+        CompilatorType result = CompilatorType.Empty;
         try{
             result = CompilatorType.valueOf(type.toUpperCase());
         } catch (IllegalArgumentException ex) { }

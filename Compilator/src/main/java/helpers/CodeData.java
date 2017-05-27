@@ -58,7 +58,7 @@ public class CodeData {
     }
 
     @JsonProperty("task_id")
-    public void setTaskId(int taskId) {
+    public void setTaskName(int taskId) {
         this.taskId = taskId;
     }
     
@@ -86,7 +86,11 @@ public class CodeData {
         }
         return code.equals(other.getCode());
     }
-    
+
+    @Override
+    public String toString() {
+        return "CodeData:\n" + "user=" + user + ", taskId=" + taskId + ", progLang=" + progLang + ", code=" + code;
+    }
     
     
 }

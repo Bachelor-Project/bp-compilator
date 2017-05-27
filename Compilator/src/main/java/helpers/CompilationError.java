@@ -9,22 +9,22 @@ package helpers;
  *
  * @author Dato
  */
-public class CompileError {
+public class CompilationError {
     
     private int line;
-    private String errorText;
-    private String inCode;
+    private String errorText = "";
+    private String inCode = "";
     
-//    public CompileError(boolean isCorrect, String errorText){
+//    public CompilationError(boolean isCorrect, String errorText){
 //        this.isCorrect = isCorrect;
 //        this.errorText = errorText;
 //    }
     
-    public CompileError(String errorText){
+    public CompilationError(String errorText){
         this.errorText = errorText;
     }
     
-    public CompileError(){}
+    public CompilationError(){}
 
     public int getLine() {
         return line;
@@ -68,13 +68,13 @@ public class CompileError {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CompileError other = (CompileError) obj;
+        final CompilationError other = (CompilationError) obj;
         return errorText.equals(other.errorText);
     }
 
     @Override
     public String toString() {
-        return "CompileError{" + "line=" + line + ", errorText=" + errorText + ", inCode=" + inCode + '}';
+        return "CompileError:" + "line=" + line + ", errorText=" + errorText + ", inCode:\n" + inCode + '}';
     }
     
 }

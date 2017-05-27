@@ -48,7 +48,7 @@ public class CompilationFactoryTest {
      */
     @Test
     public void test_GetCompilation_None() {
-        CompilatorType type = CompilatorType.None;
+        CompilatorType type = CompilatorType.Empty;
         Compilation result = CompilationFactory.getCompilation(type);
         
         Assert.assertTrue(result == null);

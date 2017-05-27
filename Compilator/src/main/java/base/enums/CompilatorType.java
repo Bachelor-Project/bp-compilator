@@ -10,7 +10,7 @@ package base.enums;
  * @author Dato
  */
 public enum CompilatorType {
-    None,
+    Empty,
     CPP,
     JAVA,
     PASCAL,
