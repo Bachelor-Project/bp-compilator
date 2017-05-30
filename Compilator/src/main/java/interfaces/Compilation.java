@@ -40,7 +40,6 @@ public abstract class Compilation {
             boolean isCorrect = (proc.exitValue() == 0);
             System.out.println("isCorrect: " + isCorrect);
             if (!isCorrect){
-//                errors = processStream(proc.getOutputStream());
                 errors = processStream(proc.getErrorStream());
             }
 //            file.delete();
