@@ -6,11 +6,13 @@
 package helpers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Dato
  */
+@XmlRootElement
 public class CodeData {
     
     private String user;
