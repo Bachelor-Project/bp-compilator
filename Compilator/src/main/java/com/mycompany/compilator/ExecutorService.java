@@ -57,24 +57,25 @@ public class ExecutorService {
      */
     @PUT
     @Path("compile")
-    public Response compileCode(@QueryParam("code_data") CodeData cd){
-        System.out.println("code data: " + cd);
+    public Response compileCode(CodeData cd){ // @QueryParam("code_data") 
+//        System.out.println("code data: " + cd);
         
-        CompilatorType compType = getAppropTypeFrom(cd.getProgLang());
-        
+        CompilatorType compType = getAppropTypeFrom(cd.getLang());
         Compilation compilator = CompilationFactory.getCompilation(compType);
         Response.ResponseBuilder responseBuilder;
         if (compilator == null) {
-            responseBuilder = Response.status(405);
+            String noCompilator = "There is no compilator on " + cd.getLang();
+            responseBuilder = Response.status(405).type(MediaType.TEXT_PLAIN).entity(noCompilator);
         }
         else {
             List<CompilationError> compileResult = compilator.makeCompilation(cd);
             
             System.out.println("compilation result: " + compileResult);
             
-            responseBuilder = (compileResult.isEmpty()) ? Response.status(204) : Response.status(404).entity(compileResult);
+            responseBuilder = (compileResult.isEmpty()) ? Response.status(204) : Response.status(400).entity(compileResult);
         }
-        return responseBuilder.header("access-control-allow-origin", "*").build();
+        return responseBuilder.build();
+//        return responseBuilder.header("access-control-allow-origin", "*").build();
     }
     
     /**

@@ -25,14 +25,17 @@ public abstract class Compilation {
     protected String compilatorPath = "";
     protected String fileExtention = "";
     
-    private final String tempFilesDirectory = "C:\\Users\\Dato\\Documents\\GitHub\\BachelorProject\\extra_files\\compilators\\";
+    private final String tempFilesDirectory = "/home/dato/Documents/project/codesData/users";
     
     public final List<CompilationError> makeCompilation(CodeData data){
         List<CompilationError> errors = new ArrayList<>();
         try {
-            String folderPath = makeFolder(tempFilesDirectory + File.separator + data.getUser());
-            String fullPathOfFile = folderPath + File.separator + "S" + data.getTaskId() + fileExtention;
+            String userFolderPath = makeFolder(tempFilesDirectory + File.separator + data.getUser());
+            String fullPathOfFile = userFolderPath + File.separator + data.getTaskName() + fileExtention;
             File file = new File(fullPathOfFile);
+            if (file.exists()){
+                file.delete();
+            }
             
             writeUserCodeInto(file, data.getCode());
             Process proc = Runtime.getRuntime().exec(compilatorPath + " " + file.getAbsolutePath());

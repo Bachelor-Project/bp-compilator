@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CodeData {
     
     private String user;
-    private int taskId;
+    private String taskName;
     private String progLang;
     private String code;
     
@@ -27,8 +27,7 @@ public class CodeData {
     
     public CodeData(){}
 
-    @JsonProperty("program_lang")
-    public String getProgLang() {
+    public String getLang() {
         return progLang;
     }
 
@@ -40,14 +39,12 @@ public class CodeData {
         return user;
     }
 
-    @JsonProperty("task_id")
-    public int getTaskId() {
-        return taskId;
+    public String getTaskName() {
+        return taskName;
     }
     
     
-    @JsonProperty("program_lang")
-    public void setProgLang(String progLang) {
+    public void setLang(String progLang) {
         this.progLang = progLang;
     }
 
@@ -59,9 +56,8 @@ public class CodeData {
         this.user = user;
     }
 
-    @JsonProperty("task_id")
-    public void setTaskName(int taskId) {
-        this.taskId = taskId;
+    public void setTaskName(String name) {
+        this.taskName = name;
     }
     
     
@@ -91,7 +87,7 @@ public class CodeData {
 
     @Override
     public String toString() {
-        return "CodeData:\n" + "user=" + user + ", taskId=" + taskId + ", progLang=" + progLang + ", code=" + code;
+        return "CodeData:\n" + "user=" + user + ", taskName=" + taskName + ", progLang=" + progLang + ", code=" + code;
     }
     
     

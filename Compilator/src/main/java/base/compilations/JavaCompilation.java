@@ -25,19 +25,20 @@ import org.apache.commons.lang3.StringUtils;
 public class JavaCompilation extends Compilation {
 
     public JavaCompilation(){
-        compilatorPath = "javac.exe ";
+        compilatorPath = "javac ";
         fileExtention = ".java";
     }
     
     @Override
     protected void writeUserCodeInto(File file, String code) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            String classNameFromClient = StringUtils.substringBetween(code, " class ", "{");
-            String onlyFileName = StringUtils.substringAfterLast(file.getAbsolutePath(), File.separator);
-            String classNameFromFile = StringUtils.substringBefore(onlyFileName, fileExtention);
-            String newCodeContent = code.replace(classNameFromClient, classNameFromFile);
+//            String classNameFromClient = StringUtils.substringBetween(code, " class ", "{");
+//            String onlyFileName = StringUtils.substringAfterLast(file.getAbsolutePath(), File.separator);
+//            String classNameFromFile = StringUtils.substringBefore(onlyFileName, fileExtention);
+//            String newCodeContent = code.replace(classNameFromClient, classNameFromFile);
+//            writer.write(newCodeContent);
             
-            writer.write(newCodeContent);
+            writer.write(code);
             writer.flush();
         }
     }
