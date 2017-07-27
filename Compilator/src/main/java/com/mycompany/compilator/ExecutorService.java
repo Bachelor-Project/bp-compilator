@@ -21,6 +21,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
@@ -58,7 +59,7 @@ public class ExecutorService {
     @PUT
     @Path("compile")
     public Response compileCode(CodeData cd){ // @QueryParam("code_data") 
-//        System.out.println("code data: " + cd);
+        System.out.println("code data: " + cd);
         
         CompilatorType compType = getAppropTypeFrom(cd.getLang());
         Compilation compilator = CompilationFactory.getCompilation(compType);
