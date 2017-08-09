@@ -25,7 +25,7 @@ public abstract class Compilation {
     protected String compilatorPath = "";
     protected String fileExtention = "";
     
-    private final String tempFilesDirectory = "/home/dato/Documents/project/codesData/users";
+    private final String tempFilesDirectory = "/home/ubuntu/Documents/project/codesData/users";
     
     public final List<CompilationError> makeCompilation(CodeData data){
         List<CompilationError> errors = new ArrayList<>();

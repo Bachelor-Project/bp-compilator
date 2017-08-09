@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>Compilator</artifactId>
+    <artifactId>execution</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>Execution</name>
+    <name>execution</name>
 
     <properties>
         <jersey2.version>2.25.1</jersey2.version>
