@@ -58,9 +58,7 @@ public class ExecutorService {
      */
     @PUT
     @Path("compile")
-    public Response compileCode(CodeData cd){ // @QueryParam("code_data") 
-        System.out.println("code data: " + cd);
-        
+    public Response compileCode(CodeData cd){
         CompilatorType compType = getAppropTypeFrom(cd.getLang());
         Compilation compilator = CompilationFactory.getCompilation(compType);
         Response.ResponseBuilder responseBuilder;
