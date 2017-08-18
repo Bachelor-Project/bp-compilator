@@ -40,16 +40,10 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class ExecutorService {
     
-//    private Compilation compManager;
     
     public ExecutorService(){
-        executionsMap.put("java", new JavaExecution());
-//        this(new CodeCompilator());
     }
     
-//    public CompilatorService(Compilation compManager){
-//        this.compManager = compManager;
-//    }
     
     /**
      * The method make compilation of given code on given programming language.
@@ -102,40 +96,5 @@ public class ExecutorService {
     private final Map<String, Execution> executionsMap = new HashMap<>();
     private final String filesDataServiceURL = "http://localhost:8080/files_data/";
     
-    @POST
-    @Path("run_code")
-    public Response codeExec(@QueryParam("lang") String lang, 
-                            @QueryParam("username") String userName, 
-                            @QueryParam("taskId") int taskId, 
-                            @QueryParam("tests") List<String> testsIds, 
-                            @QueryParam("compiled") boolean compiled){
-        System.out.println("lang: " + lang);
-        System.out.println("user: " + userName);
-        System.out.println("taskId: " + taskId);
-//        System.out.println("tests.size(): " + testsIds.size());
-        System.out.println("compiled: " + compiled);
-        
-        if (compiled){
-            if (executionsMap.containsKey(lang)){
-                Execution execution = executionsMap.get(lang);
-//                TaskData td = getTaskDataFor(taskId);
-                
-                return Response.status(200).type(MediaType.TEXT_PLAIN).encoding("success").build();
-            }
-            else {
-                return Response.status(400).type(MediaType.TEXT_PLAIN).entity("No Language support.").build();
-            }
-        }
-        return Response.status(400).type(MediaType.TEXT_PLAIN).entity("No Compiled").build();
-    }
     
-    // connect to FilesData service and gives TaskInfo.
-//    private TaskData getTaskDataFor(int taskId){
-//        Client jerseyClient = ClientBuilder.newClient();
-//        WebTarget taskTarget = jerseyClient.target(filesDataServiceURL).path("api/tasks/" + taskId);
-//        Invocation.Builder invoc = taskTarget.request(MediaType.TEXT_PLAIN);
-//        String res = invoc.get(String.class);
-//        System.out.println("task data: " + res);
-//        return null;
-//    }
 }

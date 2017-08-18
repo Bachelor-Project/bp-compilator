@@ -45,7 +45,6 @@ public abstract class Compilation {
             if (!isCorrect){
                 errors = processStream(proc.getErrorStream());
             }
-//            file.delete();
         } catch (InterruptedException | IOException ex) {
             Logger.getLogger(Compilation.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,7 +79,7 @@ public abstract class Compilation {
         
         return null;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 3;
