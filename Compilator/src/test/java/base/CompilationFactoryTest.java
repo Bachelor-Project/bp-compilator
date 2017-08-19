@@ -59,7 +59,7 @@ public class CompilationFactoryTest {
      */
     @Test
     public void test_GetCompilation_CPP() {
-        CompilatorType type = CompilatorType.CPP;
+        CompilatorType type = CompilatorType.C_CPP;
         Compilation expComp = new CPPCompilation();
         Compilation result = CompilationFactory.getCompilation(type);
         

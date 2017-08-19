@@ -38,8 +38,16 @@ public abstract class Compilation {
             }
             
             writeUserCodeInto(file, data.getCode());
-            Process proc = Runtime.getRuntime().exec(compilatorPath + " " + file.getAbsolutePath());
+            
+            String[] commands = new String[2];
+            commands[0] = compilatorPath;
+            commands[1] = data.getTaskName() + fileExtention;
+            
+            ProcessBuilder pb = new ProcessBuilder(commands);
+            pb.directory(new File(userFolderPath));
+            Process proc = pb.start();
             proc.waitFor();
+            
             boolean isCorrect = (proc.exitValue() == 0);
             System.out.println("isCorrect: " + isCorrect);
             if (!isCorrect){

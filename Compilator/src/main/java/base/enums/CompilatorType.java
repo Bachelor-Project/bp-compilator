@@ -11,7 +11,7 @@ package base.enums;
  */
 public enum CompilatorType {
     Empty,
-    CPP,
+    C_CPP,
     JAVA,
     PASCAL,
     PYTHON;

@@ -10,10 +10,13 @@ import interfaces.Compilation;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -25,19 +28,13 @@ import org.apache.commons.lang3.StringUtils;
 public class JavaCompilation extends Compilation {
 
     public JavaCompilation(){
-        compilatorPath = "javac ";
+        compilatorPath = "javac";
         fileExtention = ".java";
     }
     
     @Override
     protected void writeUserCodeInto(File file, String code) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-//            String classNameFromClient = StringUtils.substringBetween(code, " class ", "{");
-//            String onlyFileName = StringUtils.substringAfterLast(file.getAbsolutePath(), File.separator);
-//            String classNameFromFile = StringUtils.substringBefore(onlyFileName, fileExtention);
-//            String newCodeContent = code.replace(classNameFromClient, classNameFromFile);
-//            writer.write(newCodeContent);
-            
+        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)) {
             writer.write(code);
             writer.flush();
         }

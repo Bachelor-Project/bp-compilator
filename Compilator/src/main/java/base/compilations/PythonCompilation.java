@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 public class PythonCompilation extends Compilation {
 
     public PythonCompilation(){
-        compilatorPath = "python3 ";
+        compilatorPath = "python3";
         fileExtention = ".py";
     }
     

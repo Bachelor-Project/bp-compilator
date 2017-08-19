@@ -21,7 +21,7 @@ public class CompilationFactory {
     public static Compilation getCompilation(CompilatorType type){
         Compilation result;
         switch (type) {
-            case CPP:
+            case C_CPP:
                 result = new CPPCompilation();
                 break;
             case JAVA:
