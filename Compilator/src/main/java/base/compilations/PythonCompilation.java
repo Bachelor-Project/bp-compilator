@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 public class PythonCompilation extends Compilation {
 
     public PythonCompilation(){
-        compilatorPath = "python3";
+        compilatorPath = "python3 -m py_compile";
         fileExtention = ".py";
     }
     
@@ -74,8 +74,20 @@ public class PythonCompilation extends Compilation {
             while((entry = reader.readLine()) != null){
                 String line = entry.trim();
                 if (!line.equals("^")){
-                    System.out.println("line: " + line);
-                    if (isErrorStarting(line)){
+//                    System.out.println("line: " + line);
+                    if (isErrorStarting(line, "^(Sorry: )")){
+                        System.out.println("aq shedis...");
+                        lineNum = cutLineNumberFrom(line);
+                        int index = line.indexOf("(");
+                        if (index != -1){
+                            errorText = line.substring(0, line.indexOf("("));
+                            CompilationError error = new CompilationError();
+                            error.setLine(lineNum);
+                            error.setErrorText(errorText);
+                            errors.add(error);
+                        }
+                    }
+                    else if (isErrorStarting(line, "^(File\\s\")")){
                         lineNum = cutLineNumberFrom(line);
                         flag = 1;
                     }
@@ -99,8 +111,8 @@ public class PythonCompilation extends Compilation {
         return errors;
     }
     
-    private boolean isErrorStarting(String line){
-        Pattern pattern = Pattern.compile("^(File\\s\")");
+    private boolean isErrorStarting(String line, String regex){
+        Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(line);
         return matcher.find();
     }

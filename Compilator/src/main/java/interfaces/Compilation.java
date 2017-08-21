@@ -39,9 +39,10 @@ public abstract class Compilation {
             
             writeUserCodeInto(file, data.getCode());
             
-            String[] commands = new String[2];
-            commands[0] = compilatorPath;
-            commands[1] = data.getTaskName() + fileExtention;
+            String[] langSpecificCompileCommands = compilatorPath.split(" ");
+            String[] commands = new String[langSpecificCompileCommands.length + 1];
+            System.arraycopy(langSpecificCompileCommands, 0, commands, 0, langSpecificCompileCommands.length);
+            commands[langSpecificCompileCommands.length] = data.getTaskName() + fileExtention;
             
             ProcessBuilder pb = new ProcessBuilder(commands);
             pb.directory(new File(userFolderPath));
